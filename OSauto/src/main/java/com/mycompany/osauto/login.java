@@ -5,6 +5,7 @@
 package com.mycompany.osauto;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -38,6 +39,8 @@ public class login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setText("Senha");
 
@@ -73,7 +76,7 @@ public class login extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -90,7 +93,7 @@ public class login extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btLogin)
                     .addComponent(btCancel))
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -131,9 +134,35 @@ public class login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
-        // TODO add your handling code here:
+        if (validaCampo(tfLogin, "Nome nao pode estar vazio")){
+            return;
+        }
+        if (validaCampo(tfSenha, "Nome nao pode estar vazio")){
+            return;
+        }
+        String login = tfLogin.getText();
+        String senha = tfSenha.getText();
+        
+        if (login == "admin"){
+            if (senha == "admin"){
+                new FramePrincipal().setVisible(true);
+            }
+        }
     }//GEN-LAST:event_btLoginActionPerformed
-
+    public boolean validaCampo(JTextField campo, String name){
+        try {
+            String value = campo.getText().trim();
+            
+            if(value.isEmpty()){
+                throw new IllegalArgumentException(name + " Nao pode ser vazio");
+            }
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            campo.requestFocus();
+            return false;
+        }
+    }
     private void tfSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSenhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfSenhaActionPerformed

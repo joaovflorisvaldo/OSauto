@@ -11,6 +11,6 @@ package com.mycompany.osauto;
  */
 public class main {
     public static void main(String[] args) {
-        new FramePrincipal().setVisible(true);
+        new login().setVisible(true);
     }
 }

@@ -5,7 +5,9 @@
 package com.mycompany.osauto;
 
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,8 +18,27 @@ public class FramePrincipal extends javax.swing.JFrame {
     /**
      * Creates new form FramePrincipal
      */
+    private DefaultTableModel modelo = new DefaultTableModel();
+    private int linhaSelecionada = -1;
+    
     public FramePrincipal() {
         initComponents();
+        setLocationRelativeTo(this);
+        carregaTabela();
+    }
+    
+    public void carregaTabela(){
+        modelo.addColumn("Servico/Peca");
+        modelo.addColumn("Descricao");
+        modelo.addColumn("UND");
+        modelo.addColumn("Valor Und");
+        modelo.addColumn("Valor Total");
+        tbOs.setModel(modelo);
+        tbOs.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbOs.getColumnModel().getColumn(1).setPreferredWidth(50);
+        tbOs.getColumnModel().getColumn(2).setPreferredWidth(10);
+        tbOs.getColumnModel().getColumn(3).setPreferredWidth(50);
+        tbOs.getColumnModel().getColumn(4).setPreferredWidth(50);
     }
 
     /**
@@ -34,14 +55,12 @@ public class FramePrincipal extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         tfValorUnd = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        taObs = new javax.swing.JTextArea();
         jLabel16 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        tfValorTotal = new javax.swing.JTextField();
         tfNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         tfContato = new javax.swing.JTextField();
         btGerar = new javax.swing.JButton();
@@ -57,7 +76,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         tfModelo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbOs = new javax.swing.JTable();
         tfServicoPeca = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         tfUnidade = new javax.swing.JTextField();
@@ -66,6 +85,7 @@ public class FramePrincipal extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         tfPlaca = new javax.swing.JTextField();
         tfDescricao = new javax.swing.JTextField();
+        jlTotal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,9 +93,9 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jLabel15.setText("Descricao");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        taObs.setColumns(20);
+        taObs.setRows(5);
+        jScrollPane1.setViewportView(taObs);
 
         jLabel16.setText("Valor UND");
 
@@ -84,8 +104,6 @@ public class FramePrincipal extends javax.swing.JFrame {
         jLabel2.setText("Nome Completo");
 
         jLabel3.setText("Contato");
-
-        jLabel17.setText("Valor Total");
 
         jLabel11.setText("Ordem de Servico");
 
@@ -123,11 +141,23 @@ public class FramePrincipal extends javax.swing.JFrame {
 
         jLabel12.setText("Valor Total:");
 
+        tfMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfMarcaActionPerformed(evt);
+            }
+        });
+
         jLabel7.setText("Modelo");
+
+        tfModelo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfModeloActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Servico/Peca");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbOs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -138,7 +168,7 @@ public class FramePrincipal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tbOs);
 
         jLabel8.setText("Ano");
 
@@ -164,6 +194,8 @@ public class FramePrincipal extends javax.swing.JFrame {
             }
         });
 
+        jlTotal.setText("0");
+
         javax.swing.GroupLayout panelPrintLayout = new javax.swing.GroupLayout(panelPrint);
         panelPrint.setLayout(panelPrintLayout);
         panelPrintLayout.setHorizontalGroup(
@@ -176,24 +208,22 @@ public class FramePrincipal extends javax.swing.JFrame {
                         .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfServicoPeca, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel13))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfDescricao)
+                            .addGroup(panelPrintLayout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tfUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelPrintLayout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(tfDescricao))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfValorUnd, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(tfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelPrintLayout.createSequentialGroup()
+                                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                                .addGap(67, 67, 67))
+                            .addComponent(tfValorUnd)))
                     .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1)
                         .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,7 +268,8 @@ public class FramePrincipal extends javax.swing.JFrame {
                                 .addComponent(btGerar, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(panelPrintLayout.createSequentialGroup()
                                     .addComponent(jLabel12)
-                                    .addGap(97, 97, 97))))))
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jlTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         panelPrintLayout.setVerticalGroup(
@@ -277,25 +308,24 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
-                .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelPrintLayout.createSequentialGroup()
-                        .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel15))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfServicoPeca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelPrintLayout.createSequentialGroup()
-                        .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(panelPrintLayout.createSequentialGroup()
+                            .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel13)
+                                .addComponent(jLabel15))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(tfServicoPeca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panelPrintLayout.createSequentialGroup()
                             .addComponent(jLabel16)
-                            .addComponent(jLabel17))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(tfValorUnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(panelPrintLayout.createSequentialGroup()
+                        .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfValorUnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(tfUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btAdicionaTabela)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -303,7 +333,9 @@ public class FramePrincipal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(132, 132, 132)
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelPrintLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jlTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btGerar))
         );
@@ -345,17 +377,122 @@ public class FramePrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_tfDescricaoActionPerformed
 
     private void btAdicionaTabelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionaTabelaActionPerformed
-        // TODO add your handling code here:
+        if (validaCampo(tfServicoPeca, "Servico ou peca nao pode ser vazio")){
+            return;
+        }
+        if (validaCampo(tfDescricao, "Descricao nao pode ser vazio")){
+            return;
+        }
+        if (validaNumero(tfValorUnd, "Servico ou peca nao colocado")){
+            return;
+        }
+        if (validaNumero(tfUnidade, "Servico ou peca nao colocado")){
+            return;
+        }
+        
+        String servicoPeca = tfServicoPeca.getText();
+        String descricao = tfDescricao.getText();
+        Double valorUnd = Double.parseDouble(tfValorUnd.getText());
+        Integer und = Integer.valueOf(tfUnidade.getText());
+        Double valorTotal = valorUnd * und;
+        Double totalLabel = Double.parseDouble(jlTotal.getText());
+        
+        
+        if(linhaSelecionada >= 0){
+            modelo.removeRow(linhaSelecionada);
+            modelo.insertRow(linhaSelecionada, new Object[]{servicoPeca, descricao, und, valorUnd, valorTotal});
+        }else{
+            modelo.addRow(new Object[]{servicoPeca, descricao, und, valorUnd, valorTotal});
+        }
+
+        JOptionPane.showMessageDialog(this,"Ordem de servico cadastrado com sucesso!!");
+        
+        Double total = valorTotal + totalLabel;
+        jlTotal.setText(Double.toString(total));
+        tfServicoPeca.setText("");
+        tfDescricao.setText("");
+        tfValorUnd.setText("");
+        tfUnidade.setText("");
+        tfServicoPeca.requestFocus();
+        linhaSelecionada = -1;
     }//GEN-LAST:event_btAdicionaTabelaActionPerformed
 
     private void btGerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarActionPerformed
-        try {
-            panelPrint.printAll(panelPrint.getGraphics());
-        } catch (Exception e) {
+        if (validaCampo(tfNome, "Nome nao pode estar vazio")){
+            return;
         }
+        if (validaNumero(tfContato, "Contato nao pode estar vazio")){
+            return;
+        }
+        if (validaCampo(tfEndereco, "Endereco nao pode estar vazio")){
+            return;
+        }
+        if (validaCampo(tfMarca, "Marca nao pode estar vazio")){
+            return;
+        }
+        if (validaCampo(tfModelo, "Modelo nao pode estar vazio")){
+            return;
+        }
+        if (validaNumero(tfAno, "Ano nao pode estar vazio")){
+            return;
+        } 
+        if (validaCampo(tfPlaca, "Placa nao pode estar vazio")){
+            return;
+        }
+        if (validaArea(taObs, "Ano nao pode estar vazio")){
+            return;
+        }         
     }//GEN-LAST:event_btGerarActionPerformed
 
-   
+    private void tfMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMarcaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfMarcaActionPerformed
+
+    private void tfModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfModeloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfModeloActionPerformed
+
+    public boolean validaCampo(JTextField campo, String name){
+        try {
+            String value = campo.getText().trim();
+            
+            if(value.isEmpty()){
+                throw new IllegalArgumentException(name + " Nao pode ser vazio");
+            }
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            campo.requestFocus();
+            return false;
+        }
+    }
+    
+    public boolean validaArea(JTextArea campo, String name){
+        try {
+            String value = campo.getText().trim();
+            
+            if(value.isEmpty()){
+                throw new IllegalArgumentException(name + " Nao pode ser vazio");
+            }
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            campo.requestFocus();
+            return false;
+        }
+    }
+    public boolean validaNumero(JTextField campo, String name){
+        String valueCampo = campo.getText().trim();
+        try {
+            double value = Double.parseDouble(valueCampo);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "O campo" + name + "Deve ser apenas numero", JOptionPane.ERROR_MESSAGE);
+            campo.requestFocus();
+            return false;
+        }
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionaTabela;
@@ -368,7 +505,6 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -379,10 +515,11 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel jlTotal;
     private javax.swing.JLabel lbValorTotal;
     private javax.swing.JPanel panelPrint;
+    private javax.swing.JTextArea taObs;
+    private javax.swing.JTable tbOs;
     private javax.swing.JTextField tfAno;
     private javax.swing.JTextField tfContato;
     private javax.swing.JTextField tfDescricao;
@@ -393,7 +530,6 @@ public class FramePrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField tfPlaca;
     private javax.swing.JTextField tfServicoPeca;
     private javax.swing.JTextField tfUnidade;
-    private javax.swing.JTextField tfValorTotal;
     private javax.swing.JTextField tfValorUnd;
     // End of variables declaration//GEN-END:variables
 }
